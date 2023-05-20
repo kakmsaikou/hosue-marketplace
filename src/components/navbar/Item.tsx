@@ -1,16 +1,14 @@
 import { FunctionComponent } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { Link, Location } from 'react-router-dom';
 
 interface ItemProps {
-  Icon: FunctionComponent<React.SVGProps<SVGSVGElement>>;
+  icon: FunctionComponent<React.SVGProps<SVGSVGElement>>;
   path: string;
   content: string;
+  location: Location
 }
 
-const Item = ({ Icon, path, content }: ItemProps) => {
-  const navigate = useNavigate();
-  const location = useLocation();
-
+const Item = ({ icon: Icon, path, content, location }: ItemProps) => {
   const pathMathRoute = (route: string) => {
     if (route === location.pathname) {
       return true;
@@ -18,27 +16,24 @@ const Item = ({ Icon, path, content }: ItemProps) => {
   };
 
   return (
-    <li
-      className='navbarListItem'
-      onClick={() => {
-        navigate(path);
-      }}
-    >
-      <Icon
-        fill={pathMathRoute(path) ? '#2c2c2c' : '#8f8f8f'}
-        width='36px'
-        height='36px'
-      />
-      <p
-        className={
-          pathMathRoute(path)
-            ? 'navbarListItemNameActive'
-            : 'navbarListItemName'
-        }
-      >
-        {content}
-      </p>
-    </li>
+    <Link to={path}>
+      <li className='navbarListItem'>
+        <Icon
+          fill={pathMathRoute(path) ? '#2c2c2c' : '#8f8f8f'}
+          width='36px'
+          height='36px'
+        />
+        <p
+          className={
+            pathMathRoute(path)
+              ? 'navbarListItemNameActive'
+              : 'navbarListItemName'
+          }
+        >
+          {content}
+        </p>
+      </li>
+    </Link>
   );
 };
 
